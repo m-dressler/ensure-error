@@ -14,6 +14,7 @@ import {
   isError,
   returnError,
   WrappedError,
+  voidError,
 } from "jsr:@md/ensure-error";
 
 const safeFetch = returnError(fetch);
@@ -24,6 +25,9 @@ console.log(
     ? "Network error: " + result.message
     : "Response Status: " + result.status,
 );
+
+// voidError allows us to simplify logic with default values through optional chaining
+const status = voidError(result)?.status ?? 500;
 
 const libValue = await strangeLibraryFunction().catch(ensureError); // This lib throws non-error values
 if (libValue instanceof WrappedError) {
